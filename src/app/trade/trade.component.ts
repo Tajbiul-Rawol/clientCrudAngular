@@ -110,6 +110,7 @@ export class TradeComponent implements OnInit {
     this.service.getAll().subscribe((data: any) => {
       this.trades = data.trades;
     });
+    console.log(this.trades);
   }
   clearFields() {
     this.tradeData = {
@@ -181,12 +182,11 @@ export class TradeComponent implements OnInit {
       }
       this.tradeList = val;
     }
-    if (trade != null && level != null) {
+    if (trade.Name != null && level.Name != null) {
       for (var i = 0; i < this.tradeList.length; i++) {
-        if (
-          trade.Name == this.tradeList[i].TradeName &&
-          this.tradeList[i].TradeLevel == level.Name
-        ) {
+        let tradeName = this.tradeList[i].TradeName.toString();
+        let tradeLevel = this.tradeList[i].TradeLevel.toString();
+        if (trade.Name == tradeName && level.Name == tradeLevel) {
           val.push(this.tradeList[i]);
         }
       }
@@ -204,5 +204,12 @@ export class TradeComponent implements OnInit {
   openModal(traded, event: any) {
     let val = <HTMLInputElement>document.getElementById('myModal');
     val.hidden = false;
+  }
+
+  clearSearch() {
+    this.getTradeLevels();
+    this.loadAllTrade();
+    this.selectedTrade = 'Select Trade';
+    this.selectedTradeLevel = 'Select Level';
   }
 }
