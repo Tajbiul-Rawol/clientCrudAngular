@@ -1,0 +1,48 @@
+{
+    "trades" : [
+        {
+          "ID": 1,
+          "Name": "Asphalt Concrete Paving"
+        },
+        {
+          "ID": 2,
+          "Name": "Bulldozer operation"
+        },
+        {
+          "ID": 3,
+          "Name": "BrickLaying"
+        },
+        {
+          "ID": 4,
+          "Name": "Bored Micro-piling Operation"
+        }
+      ],
+      "tradeLevels" : [
+        {
+          "ID": 1,
+          "Name": "SATW",
+          "TradeID": 2
+        },
+        {
+          "ID": 2,
+          "Name": "SEC(k)",
+          "TradeID": 1
+        },
+        {
+          "ID": 3,
+          "Name": "SATF",
+          "TradeID": 3
+        },
+        {
+          "ID": 4,
+          "Name": "SEC(J)",
+          "TradeID": 3
+        },
+        {
+          "ID": 5,
+          "Name": "SADT",
+          "TradeID": 4
+        }
+      ]
+
+}
