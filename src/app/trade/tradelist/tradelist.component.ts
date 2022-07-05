@@ -65,9 +65,11 @@ export class TradelistComponent implements OnInit {
     this.service.getAll().subscribe((data: any) => {
       this.trades = data.trades;
     });
-    console.log(this.trades);
   }
-  openModal() {}
+  openModal(trade: any) {
+    alert(trade.ID + ' ' + trade.Name + '');
+    this.tradeData.TradeName = trade.Name;
+  }
 
   onSelect(event: any) {
     let tradeDetails = this.trades.find((t: any) => t.ID == event.value);

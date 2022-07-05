@@ -58,6 +58,7 @@ export class TradeComponent implements OnInit {
       this.tradeList = data;
       this.copyTradeList = data;
     });
+    console.log(this.tradeList);
   }
   getDate() {
     this.tradeData.ActiveDate = (<HTMLInputElement>(
