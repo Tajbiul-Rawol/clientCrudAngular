@@ -67,8 +67,7 @@ export class TradelistComponent implements OnInit {
     });
   }
   openModal(trade: any) {
-    alert(trade.ID + ' ' + trade.Name + '');
-    this.tradeData.TradeName = trade.Name;
+    this.tradeData.TradeName = trade.TradeName;
   }
 
   onSelect(event: any) {
