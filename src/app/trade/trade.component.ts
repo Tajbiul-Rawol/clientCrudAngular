@@ -53,24 +53,6 @@ export class TradeComponent implements OnInit {
   tradeList: any[] = [];
   copyTradeList: any[] = [];
 
-  isSyllabus: boolean = false;
-  isTestPlan: boolean = false;
-  isActiveDate: boolean = false;
-  isDevelopmentOfficer: boolean = false;
-  isManager: boolean = false;
-  isSyllabusName: boolean = false;
-  islanguages: boolean = false;
-  isTrade: boolean = false;
-  isLevel: boolean = false;
-  errrorMessage: string = '';
-
-  downloadPdfFile(data) {
-    const PdfFileName = data;
-    this.service.downloadFile(PdfFileName).subscribe((data) => {
-      importedSaveAs(data, PdfFileName);
-    });
-  }
-
   loadAllTrade() {
     this.service.getDetails().subscribe((data: any) => {
       this.tradeList = data;
@@ -127,6 +109,9 @@ export class TradeComponent implements OnInit {
     (<HTMLInputElement>document.getElementById('syllabusInput')).value = null;
     (<HTMLInputElement>document.getElementById('testplanInput')).value = null;
     (<HTMLInputElement>document.getElementById('datepicker')).value = null;
+    (<HTMLInputElement>document.getElementById('trade')).value = '0';
+    (<HTMLInputElement>document.getElementById('tradeLevel')).value = '0';
+
     return;
   }
   getLanguages(): any {
@@ -156,60 +141,9 @@ export class TradeComponent implements OnInit {
     });
     console.log(this.tradeLevels);
   }
-  onSelectFile(file: FileList) {
-    this.fileToUpload = file.item(0);
-    var reader = new FileReader();
-    reader.onload = (event: any) => {
-      this.imageUrl = event.target.result;
-    };
-    reader.readAsDataURL(this.fileToUpload);
-  }
+
   onCheckboxChange(event: any) {
     this.tradeData.Languages += event.value + ',';
     console.log('check box' + this.tradeData.Languages);
-  }
-
-  search(trade: any, level: any) {
-    this.tradeList = this.copyTradeList;
-    console.log(level);
-    let val = [];
-    console.log(this.tradeList);
-    if (trade != null && level == null) {
-      for (var i = 0; i < this.tradeList.length; i++) {
-        if (trade.Name == this.tradeList[i].TradeName) {
-          val.push(this.tradeList[i]);
-        }
-      }
-      this.tradeList = val;
-    }
-    if (trade.Name != null && level.Name != null) {
-      for (var i = 0; i < this.tradeList.length; i++) {
-        let tradeName = this.tradeList[i].TradeName.toString();
-        let tradeLevel = this.tradeList[i].TradeLevel.toString();
-        if (trade.Name == tradeName && level.Name == tradeLevel) {
-          val.push(this.tradeList[i]);
-        }
-      }
-      this.tradeList = val;
-    }
-  }
-
-  Delete(ID: number) {
-    this.service.delete(ID).subscribe((r) => {
-      alert(r);
-      this.loadAllTrade();
-    });
-  }
-
-  openModal(traded, event: any) {
-    let val = <HTMLInputElement>document.getElementById('myModal');
-    val.hidden = false;
-  }
-
-  clearSearch() {
-    this.getTradeLevels();
-    this.loadAllTrade();
-    this.selectedTrade = 'Select Trade';
-    this.selectedTradeLevel = 'Select Level';
   }
 }

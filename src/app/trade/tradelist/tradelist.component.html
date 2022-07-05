@@ -1,0 +1,153 @@
+<div class="container">
+  <select [(ngModel)]="selectedTrade.ID" (change)="onSelect($event.target)">
+    <option value="0">--Select Trade--</option>
+    <option *ngFor="let trade of trades" [value]="trade.ID">
+      {{ trade.Name }}
+    </option>
+  </select>
+  &nbsp;
+  <select [(ngModel)]="selectedTradeLevel.ID" (change)="getData($event.target)">
+    <option value="0">--Select Level--</option>
+    <option *ngFor="let level of tradeLevels" [value]="level.ID">
+      {{ level.Name }}
+    </option>
+  </select>
+  &nbsp;
+  <button
+    class="btn btn-primary"
+    (click)="search(selectedTrade, selectedTradeLevel)"
+  >
+    search
+  </button>
+  &nbsp;
+  <button class="btn btn-warning" (click)="clearSearch()">clear</button>
+
+  <br /><br />
+  <div class="row" style="overflow: scroll">
+    <table
+      width="100%"
+      class="responsive-table table-striped table-bordered table-hover"
+      style="height: 100px"
+    >
+      <thead>
+        <tr class="btn-primary" style="height: 40px">
+          <th style="width: 10%">
+            <b>Action</b>
+          </th>
+          <th style="width: 10%">
+            <b>Trade Name</b>
+          </th>
+          <th style="width: 15%">
+            <b>Trade Level</b>
+          </th>
+          <th style="width: 10%">
+            <b>Languages</b>
+          </th>
+          <th style="width: 15%">
+            <b>Syllabus Name</b>
+          </th>
+
+          <th style="width: 10%">
+            <b>Syllabus File</b>
+          </th>
+          <th style="width: 10%">
+            <b>Test plan File </b>
+          </th>
+          <th style="width: 15%">
+            <b>Active Date </b>
+          </th>
+        </tr>
+      </thead>
+      <tbody style="overflow-y: auto; height: 100px">
+        <tr
+          *ngFor="let trade of tradeList"
+          style="padding: 2px"
+          (click)="retrieveTrade(trade.ID)"
+        >
+          <td>
+            <button class="btn btn-danger" (click)="Delete(trade.ID)">
+              Delete
+            </button>
+          </td>
+          <td>
+            <span>{{ trade.TradeName }}</span>
+          </td>
+          <td>
+            <span>{{ trade.TradeLevel }}</span>
+          </td>
+          <td>
+            <span>{{ trade.Languages }}</span>
+          </td>
+          <td>
+            <span>{{ trade.SyllabusName }}</span>
+          </td>
+          <td>
+            <span>
+              <button
+                (click)="downloadPdfFile(trade.SyllabusFilePath)"
+                class="btn btn-link"
+              >
+                <span class="fa fa-download">
+                  {{ trade.SyllabusFilePath }}</span
+                >
+              </button>
+            </span>
+          </td>
+          <td>
+            <button
+              (click)="downloadPdfFile(trade.TestPlanFilePath)"
+              class="btn btn-link"
+            >
+              <span class="fa fa-download"> {{ trade.TestPlanFilePath }}</span>
+            </button>
+          </td>
+          <td>
+            <span>{{ trade.ActiveDate }}</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button
+      id="openModalButton"
+      data-toggle="modal"
+      data-target="#myModal"
+      (click)="openModal()"
+      class="btn btn-primary"
+    >
+      Open Modal
+    </button>
+  </div>
+
+  <div
+    class="modal fade"
+    id="myModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="myModal"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">...</div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            Close
+          </button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
