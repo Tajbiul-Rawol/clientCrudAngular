@@ -1,19 +1,34 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ServiceService } from '../../Services/service.service';
 import { saveAs as importedSaveAs } from 'file-saver';
+import { Validators, FormBuilder } from '@angular/forms';
 @Component({
   selector: 'app-tradelist',
   templateUrl: './tradelist.component.html',
   styleUrls: ['./tradelist.component.css'],
 })
 export class TradelistComponent implements OnInit {
-  constructor(private service: ServiceService) {}
+  @ViewChild('syllabusInput', { static: true }) syllabusInput;
+  @ViewChild('testplanInput', { static: true }) testplanInput;
+  constructor(
+    private service: ServiceService,
+    private formBuilder: FormBuilder
+  ) {}
 
   selectedTrade: any = {
     ID: 0,
     Name: '',
   };
   selectedTradeLevel: any = {
+    ID: 0,
+    Name: '',
+    TradeID: 0,
+  };
+  selectedModalTrade: any = {
+    ID: 0,
+    Name: '',
+  };
+  selectedModalTradeLevel: any = {
     ID: 0,
     Name: '',
     TradeID: 0,
@@ -29,13 +44,16 @@ export class TradelistComponent implements OnInit {
     Manager: '',
     SyllabusName: '',
   };
+
   tradeLevels: any;
+  modalTradeLevels: any;
   trades: any[] = [];
+  modalTrades: any[] = [];
   languages: any;
   selectedFile: File = null;
   imageUrl: string;
   fileToUpload: File = null;
-  saveFileForm: any;
+  editFileForm: any;
   tradeList: any[] = [];
   copyTradeList: any[] = [];
 
@@ -43,6 +61,7 @@ export class TradelistComponent implements OnInit {
     this.getTradeLevels();
     this.getLanguages();
     this.loadAllTrade();
+    this.editFileForm = this.formBuilder.group({});
   }
 
   getLanguages(): any {
@@ -64,10 +83,31 @@ export class TradelistComponent implements OnInit {
   getTradeLevels() {
     this.service.getAll().subscribe((data: any) => {
       this.trades = data.trades;
+      this.modalTrades = data.trades;
     });
   }
   openModal(trade: any) {
+    this.tradeData.ID = trade.ID;
     this.tradeData.TradeName = trade.TradeName;
+    this.selectedModalTrade = this.modalTrades.find(
+      (t) => t.Name == trade.TradeName
+    );
+    this.service.getAll().subscribe((data: any) => {
+      this.modalTradeLevels = data.tradeLevels.filter(
+        (res: any) => res.TradeID == this.selectedModalTrade.ID
+      );
+    });
+    this.selectedModalTradeLevel = this.modalTradeLevels.find(
+      (l) => l.TradeID == this.selectedModalTrade.ID
+    );
+    this.tradeData.TradeLevel = trade.TradeLevel;
+    this.tradeData.ActiveDate = trade.ActiveDate;
+    (<HTMLInputElement>document.getElementById('datepicker')).value =
+      trade.ActiveDate;
+    this.tradeData.Languages = trade.Languages;
+    this.tradeData.DevelopmentOfficer = trade.DevelopmentOfficer;
+    this.tradeData.Manager = trade.Manager;
+    this.tradeData.SyllabusName = trade.SyllabusName;
   }
 
   onSelect(event: any) {
@@ -81,6 +121,31 @@ export class TradelistComponent implements OnInit {
     });
     console.log(this.tradeLevels);
   }
+
+  onCheckboxChange(event: any) {}
+
+  onModalTradeSelect(event: any) {
+    let modalTradeDetails = this.modalTrades.find(
+      (t: any) => t.ID == event.value
+    );
+    this.tradeData.TradeName = modalTradeDetails.Name;
+    this.selectedModalTrade = modalTradeDetails;
+    this.service.getAll().subscribe((data: any) => {
+      this.modalTradeLevels = data.tradeLevels.filter(
+        (res: any) => res.TradeID == event.value
+      );
+      console.log(this.modalTradeLevels);
+    });
+  }
+
+  getModalLevelData(event: any) {
+    console.log(this.selectedModalTradeLevel);
+    this.selectedModalTradeLevel = this.modalTradeLevels.find(
+      (t: any) => t.ID == event.value
+    );
+    this.tradeData.TradeLevel = this.selectedModalTradeLevel.Name;
+  }
+
   getData(event: any) {
     console.log(this.selectedTradeLevel);
     this.selectedTradeLevel = this.tradeLevels.find(
@@ -113,16 +178,20 @@ export class TradelistComponent implements OnInit {
     }
   }
 
+  clearFields() {}
+
   clearSearch() {
     this.getTradeLevels();
     this.loadAllTrade();
     this.selectedTrade = 'Select Trade';
     this.selectedTradeLevel = 'Select Level';
   }
-  retrieveTrade(ID: any) {
-    alert(ID);
-  }
 
+  getDate() {
+    this.tradeData.ActiveDate = (<HTMLInputElement>(
+      document.getElementById('datepicker')
+    )).value;
+  }
   Delete(ID: number) {
     this.service.delete(ID).subscribe((r) => {
       alert(r);
@@ -134,6 +203,31 @@ export class TradelistComponent implements OnInit {
     const PdfFileName = data;
     this.service.downloadFile(PdfFileName).subscribe((data) => {
       importedSaveAs(data, PdfFileName);
+    });
+  }
+
+  onSubmit() {
+    debugger;
+
+    let formData = new FormData();
+    formData.append(
+      'TestPlanFileUpload',
+      this.testplanInput.nativeElement.files[0]
+    );
+    formData.append(
+      'SyllabusFileUpload',
+      this.syllabusInput.nativeElement.files[0]
+    );
+    formData.append('TradeName', this.tradeData.TradeName);
+    formData.append('TradeLevel', this.tradeData.TradeLevel);
+    formData.append('Languages', this.tradeData.Languages);
+    formData.append('ActiveDate', this.tradeData.ActiveDate);
+    formData.append('DevelopmentOfficer', this.tradeData.DevelopmentOfficer);
+    formData.append('DevelopmentOfficer', this.tradeData.SyllabusName);
+    formData.append('Manager', this.tradeData.Manager);
+    this.service.updateDetails(formData).subscribe((result) => {
+      alert(result);
+      this.loadAllTrade();
     });
   }
 }

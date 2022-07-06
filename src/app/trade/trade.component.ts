@@ -52,7 +52,6 @@ export class TradeComponent implements OnInit {
   saveFileForm: any;
   tradeList: any[] = [];
   copyTradeList: any[] = [];
-  message: string;
 
   loadAllTrade() {
     this.service.getDetails().subscribe((data: any) => {

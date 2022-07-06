@@ -133,12 +133,161 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body">{{ tradeData.TradeName }}</div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">
-            Close
-          </button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+        <div class="modal-body">
+          <select
+            [(ngModel)]="selectedModalTrade.ID"
+            (change)="onModalTradeSelect($event.target)"
+          >
+            <option value="0">--Select Trade--</option>
+            <option *ngFor="let trade of trades" [value]="trade.ID">
+              {{ trade.Name }}
+            </option>
+          </select>
+          &nbsp;
+          <select
+            [(ngModel)]="selectedModalTradeLevel.ID"
+            (change)="getModalLevelData($event.target)"
+          >
+            <option value="0">--Select Level--</option>
+            <option *ngFor="let level of modalTradeLevels" [value]="level.ID">
+              {{ level.Name }}
+            </option>
+          </select>
+          <div class="row" style="padding-left: 10px">
+            <span style="font-weight: 1000">Languages</span>
+            <div class="col">
+              <div *ngFor="let language of languages">
+                <div class="form-check" id="checkBox">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value="{{ language.Name }}"
+                    name="{{ language.Name }}"
+                    id="flexCheckDefault"
+                    (change)="onCheckboxChange($event.target)"
+                  />
+                  <label class="form-check-label" for="flexCheckDefault">
+                    {{ language.Name }}
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" style="padding-left: 10px">
+            <div class="col-sm3">
+              <label class="form-check-label" for="flexCheckDefault">
+                Development Officer
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Development Officer"
+                aria-label="DevelopmentOfficer"
+                aria-describedby="basic-addon1"
+                style="width: 520px"
+                [(ngModel)]="tradeData.DevelopmentOfficer"
+                style="width: 300px !important; padding-left: 20px"
+              />
+            </div>
+          </div>
+          <br />
+          <div class="row" style="padding-left: 10px">
+            <div class="col-sm3">
+              <label class="form-check-label" for="flexCheckDefault">
+                Manager
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Manager"
+                aria-label="Manager"
+                aria-describedby="basic-addon1"
+                style="width: 520px"
+                [(ngModel)]="tradeData.Manager"
+                style="width: 300px !important; padding-left: 20px"
+              />
+            </div>
+          </div>
+          <br />
+          <div class="row" style="padding-left: 10px">
+            <div class="col-sm3">
+              <label class="form-check-label" for="flexCheckDefault">
+                Syllabus Name
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Syllabus Name"
+                aria-label="Syllabus Name"
+                aria-describedby="basic-addon1"
+                style="width: 520px"
+                [(ngModel)]="tradeData.SyllabusName"
+                style="width: 300px !important; padding-left: 20px"
+              />
+            </div>
+          </div>
+          <br />
+          <span style="font-weight: 1000">Active Date</span> &nbsp;
+          <input
+            type="date"
+            value="date"
+            id="datepicker"
+            (change)="getDate()"
+            [ngModel]="tradeData.ActiveDate | date: 'yyyy-MM-dd'"
+            (ngModelChange)="tradeData.activeDate = $event"
+            [value]="tradeData.ActiveDate | date: 'yyyy-MM-dd'"
+            autocomplete="off"
+          />
+          <br />
+          <br />
+          <form [formGroup]="editFileForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row"></div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <b>Upload Test Plan</b>
+              </div>
+              <div class="col-md-4">
+                <input type="file" #testplanInput id="testplanInput" />
+                <br />
+              </div>
+            </div>
+            <br />
+            <div class="row">
+              <div class="col-md-2">
+                <b>Upload Syllabus</b>
+              </div>
+              <div class="col-md-4">
+                <input type="file" #syllabusInput id="syllabusInput" />
+                <br />
+              </div>
+            </div>
+            <div class="row" align="center" style="padding-left: 400px"></div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="submit" class="btn btn-primary">
+                Save changes
+              </button>
+              <button
+                type="button"
+                class="button"
+                class="btn btn-warning"
+                color="primary"
+                (click)="clearFields()"
+              >
+                Clear Fields
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
