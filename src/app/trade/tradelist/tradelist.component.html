@@ -59,16 +59,25 @@
         </tr>
       </thead>
       <tbody style="overflow-y: auto; height: 100px">
-        <tr
-          *ngFor="let trade of tradeList"
-          style="padding: 2px"
-          (click)="openModal(trade)"
-          id="openModalButton"
-          data-toggle="modal"
-          data-target="#myModal"
-        >
+        <tr *ngFor="let trade of tradeList">
           <td>
-            <button class="btn btn-danger" (click)="Delete(trade.ID)">
+            <button
+              class="btn btn-primary"
+              (click)="openModal(trade)"
+              id="openModalButton"
+              data-toggle="modal"
+              data-target="#myModal"
+              style="margin-left: 20px"
+            >
+              Edit
+            </button>
+            <br />
+            <br />
+            <button
+              class="btn btn-danger"
+              (click)="Delete(trade.ID)"
+              style="margin-left: 10px"
+            >
               Delete
             </button>
           </td>

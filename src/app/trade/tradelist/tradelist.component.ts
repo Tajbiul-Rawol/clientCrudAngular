@@ -89,6 +89,7 @@ export class TradelistComponent implements OnInit {
   openModal(trade: any) {
     this.tradeData.ID = trade.ID;
     this.tradeData.TradeName = trade.TradeName;
+    this.tradeData.TradeLevel = trade.TradeLevel;
     this.selectedModalTrade = this.modalTrades.find(
       (t) => t.Name == trade.TradeName
     );
@@ -96,11 +97,11 @@ export class TradelistComponent implements OnInit {
       this.modalTradeLevels = data.tradeLevels.filter(
         (res: any) => res.TradeID == this.selectedModalTrade.ID
       );
+      this.selectedModalTradeLevel = this.modalTradeLevels.find(
+        (l) => l.TradeID == this.selectedModalTrade.ID
+      );
     });
-    this.selectedModalTradeLevel = this.modalTradeLevels.find(
-      (l) => l.TradeID == this.selectedModalTrade.ID
-    );
-    this.tradeData.TradeLevel = trade.TradeLevel;
+    this.getSelectedLanguages(trade.Languages);
     this.tradeData.ActiveDate = trade.ActiveDate;
     (<HTMLInputElement>document.getElementById('datepicker')).value =
       trade.ActiveDate;
@@ -122,7 +123,18 @@ export class TradelistComponent implements OnInit {
     console.log(this.tradeLevels);
   }
 
-  onCheckboxChange(event: any) {}
+  getSelectedLanguages(language: string) {
+    let languages = language.split(',');
+    // for (let i = 0; i < languages.length; i++) {
+    //   this.languages = this.languages.find((l: any) => {
+    //     l.Name == languages[i];
+    //   });
+    // }
+  }
+  onCheckboxChange(event: any) {
+    this.tradeData.Languages += event.value + ',';
+    console.log('check box' + this.tradeData.Languages);
+  }
 
   onModalTradeSelect(event: any) {
     let modalTradeDetails = this.modalTrades.find(
