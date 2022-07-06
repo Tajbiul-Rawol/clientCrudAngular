@@ -93,7 +93,7 @@ export class TradelistComponent implements OnInit {
     console.log(level);
     let val = [];
     console.log(this.tradeList);
-    if (trade != null && level == null) {
+    if (trade.Name != null && level.Name == null) {
       for (var i = 0; i < this.tradeList.length; i++) {
         if (trade.Name == this.tradeList[i].TradeName) {
           val.push(this.tradeList[i]);
