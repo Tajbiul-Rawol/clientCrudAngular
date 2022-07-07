@@ -125,11 +125,13 @@ export class TradelistComponent implements OnInit {
 
   getSelectedLanguages(language: string) {
     let languages = language.split(',');
-    // for (let i = 0; i < languages.length; i++) {
-    //   this.languages = this.languages.find((l: any) => {
-    //     l.Name == languages[i];
-    //   });
-    // }
+    let langArr = [];
+    for (let i = 0; i < languages.length; i++) {
+      let checkBox = <HTMLInputElement>(
+        (<unknown>document.getElementsByName(languages[i]))
+      );
+      checkBox.value = languages[i];
+    }
   }
   onCheckboxChange(event: any) {
     this.tradeData.Languages += event.value + ',';
