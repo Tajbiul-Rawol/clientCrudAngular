@@ -173,6 +173,7 @@
                     value="{{ language.Name }}"
                     name="{{ language.Name }}"
                     id="flexCheckDefault"
+                    [checked]="language.isSelected"
                     (change)="onCheckboxChange($event.target)"
                   />
                   <label class="form-check-label" for="flexCheckDefault">

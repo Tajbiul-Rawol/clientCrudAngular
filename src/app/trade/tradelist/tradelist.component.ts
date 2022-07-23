@@ -56,6 +56,7 @@ export class TradelistComponent implements OnInit {
   editFileForm: any;
   tradeList: any[] = [];
   copyTradeList: any[] = [];
+  checked: boolean = false;
 
   ngOnInit(): void {
     this.getTradeLevels();
@@ -124,15 +125,36 @@ export class TradelistComponent implements OnInit {
   }
 
   getSelectedLanguages(language: string) {
+    this.clearCheckBoxSelections();
     let languages = language.split(',');
     let langArr = [];
     for (let i = 0; i < languages.length; i++) {
-      let checkBox = <HTMLInputElement>(
-        (<unknown>document.getElementsByName(languages[i]))
-      );
+      let name = languages[i];
+      let language = this.languages.find(l => l.Name === name);
+      if (language) {
+        language.isSelected = true;
+      }
+      let checkBox =  (<HTMLInputElement><unknown>document.getElementsByName(name))
       checkBox.value = languages[i];
+      checkBox.checked = true;
+      this.checked = true;
     }
   }
+  clearCheckBoxSelections(){
+    for (let i = 0; i < this.languages.length; i++) {
+      let lang = this.languages[i];
+      let language = this.languages.find(l => l.Name === lang.Name);
+      if (language) {
+        language.isSelected = false;
+      }
+      let checkBox =  (<HTMLInputElement><unknown>document.getElementsByName(lang.Name))
+      checkBox.value = this.languages[i];
+      checkBox.checked = false;
+      this.checked = false;
+    }
+  }
+
+
   onCheckboxChange(event: any) {
     this.tradeData.Languages += event.value + ',';
     console.log('check box' + this.tradeData.Languages);
@@ -232,12 +254,13 @@ export class TradelistComponent implements OnInit {
       'SyllabusFileUpload',
       this.syllabusInput.nativeElement.files[0]
     );
+    formData.append('ID',this.tradeData.ID);
     formData.append('TradeName', this.tradeData.TradeName);
     formData.append('TradeLevel', this.tradeData.TradeLevel);
     formData.append('Languages', this.tradeData.Languages);
     formData.append('ActiveDate', this.tradeData.ActiveDate);
     formData.append('DevelopmentOfficer', this.tradeData.DevelopmentOfficer);
-    formData.append('DevelopmentOfficer', this.tradeData.SyllabusName);
+    formData.append('SyllabusName', this.tradeData.SyllabusName);
     formData.append('Manager', this.tradeData.Manager);
     this.service.updateDetails(formData).subscribe((result) => {
       alert(result);
