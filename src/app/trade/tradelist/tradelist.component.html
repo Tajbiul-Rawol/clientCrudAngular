@@ -1,12 +1,23 @@
 <div class="container">
-  <select [(ngModel)]="selectedTrade.ID" (change)="onSelect($event.target)">
+  <br />
+  <select
+    [(ngModel)]="selectedTrade.ID"
+    (change)="onSelect($event.target)"
+    class="form-control"
+    id="trade"
+  >
     <option value="0">--Select Trade--</option>
     <option *ngFor="let trade of trades" [value]="trade.ID">
       {{ trade.Name }}
     </option>
   </select>
   &nbsp;
-  <select [(ngModel)]="selectedTradeLevel.ID" (change)="getData($event.target)">
+  <select
+    [(ngModel)]="selectedTradeLevel.ID"
+    (change)="getData($event.target)"
+    id="tradeLevel"
+    class="form-control"
+  >
     <option value="0">--Select Level--</option>
     <option *ngFor="let level of tradeLevels" [value]="level.ID">
       {{ level.Name }}
@@ -23,18 +34,26 @@
   <button class="btn btn-warning" (click)="clearSearch()">clear</button>
 
   <br /><br />
-  <div class="row" style="overflow: scroll">
+  <div class="row" style="overflow-y: scroll">
     <table
       width="100%"
       class="responsive-table table-striped table-bordered table-hover"
       style="height: 100px"
     >
       <thead>
-        <tr class="btn-primary" style="height: 40px">
-          <th style="width: 10%">
+        <tr
+          style="height: 40px"
+          style="
+            color: #fff;
+            background-color: #333;
+            text-align: center;
+            height: 100%;
+          "
+        >
+          <th style="width: 30%">
             <b>Action</b>
           </th>
-          <th style="width: 10%">
+          <th style="width: 20%">
             <b>Trade Name</b>
           </th>
           <th style="width: 15%">
@@ -47,10 +66,10 @@
             <b>Syllabus Name</b>
           </th>
 
-          <th style="width: 10%">
+          <th style="width: 8%">
             <b>Syllabus File</b>
           </th>
-          <th style="width: 10%">
+          <th style="width: 8%">
             <b>Test plan File </b>
           </th>
           <th style="width: 15%">
@@ -67,12 +86,11 @@
               id="openModalButton"
               data-toggle="modal"
               data-target="#myModal"
-              style="margin-left: 20px"
+              style="margin-left: 5px"
             >
               Edit
             </button>
-            <br />
-            <br />
+
             <button
               class="btn btn-danger"
               (click)="Delete(trade.ID)"
@@ -120,6 +138,48 @@
       </tbody>
     </table>
   </div>
+  <nav aria-label="Page navigation example">
+    <ul class="pagination" style="justify-content: center">
+      <li class="page-item">
+        <a
+          class="page-link"
+          (click)="getTradeDetailsByPageNumber(pageNumber - 1)"
+          >Previous</a
+        >
+      </li>
+      <li class="page-item">
+        <a
+          class="page-link"
+          (click)="getTradeDetailsByPageNumber(1)"
+          style="cursor: pointer"
+          >1</a
+        >
+      </li>
+      <li class="page-item">
+        <a
+          class="page-link"
+          style="cursor: pointer"
+          (click)="getTradeDetailsByPageNumber(2)"
+          >2</a
+        >
+      </li>
+      <li class="page-item">
+        <a
+          class="page-link"
+          style="cursor: pointer"
+          (click)="getTradeDetailsByPageNumber(3)"
+          >3</a
+        >
+      </li>
+      <li class="page-item">
+        <a
+          class="page-link"
+          (click)="getTradeDetailsByPageNumber(pageNumber + 1)"
+          >Next</a
+        >
+      </li>
+    </ul>
+  </nav>
 
   <div
     class="modal fade"
@@ -132,7 +192,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Edit Trade Detail</h5>
           <button
             type="button"
             class="close"
@@ -142,27 +202,33 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body" style="padding-left: 20px">
           <select
             [(ngModel)]="selectedModalTrade.ID"
             (change)="onModalTradeSelect($event.target)"
+            id="modalTrade"
+            class="form-control"
           >
             <option value="0">--Select Trade--</option>
             <option *ngFor="let trade of trades" [value]="trade.ID">
               {{ trade.Name }}
             </option>
           </select>
-          &nbsp;
+          &nbsp;&nbsp;
           <select
             [(ngModel)]="selectedModalTradeLevel.ID"
             (change)="getModalLevelData($event.target)"
+            id="modalTradeLevel"
+            class="form-control"
           >
             <option value="0">--Select Level--</option>
             <option *ngFor="let level of modalTradeLevels" [value]="level.ID">
               {{ level.Name }}
             </option>
           </select>
-          <div class="row" style="padding-left: 10px">
+          <br />
+          <br />
+          <div class="row" style="padding-left: 20px">
             <span style="font-weight: 1000">Languages</span>
             <div class="col">
               <div *ngFor="let language of languages">
@@ -183,9 +249,13 @@
               </div>
             </div>
           </div>
-          <div class="row" style="padding-left: 10px">
+          <div class="row" style="padding-left: 20px">
             <div class="col-sm3">
-              <label class="form-check-label" for="flexCheckDefault">
+              <label
+                class="form-check-label"
+                for="flexCheckDefault"
+                style="font-weight: 1000"
+              >
                 Development Officer
               </label>
               <input
@@ -201,9 +271,13 @@
             </div>
           </div>
           <br />
-          <div class="row" style="padding-left: 10px">
+          <div class="row" style="padding-left: 20px">
             <div class="col-sm3">
-              <label class="form-check-label" for="flexCheckDefault">
+              <label
+                class="form-check-label"
+                for="flexCheckDefault"
+                style="font-weight: 1000"
+              >
                 Manager
               </label>
               <input
@@ -219,9 +293,13 @@
             </div>
           </div>
           <br />
-          <div class="row" style="padding-left: 10px">
+          <div class="row" style="padding-left: 20px">
             <div class="col-sm3">
-              <label class="form-check-label" for="flexCheckDefault">
+              <label
+                class="form-check-label"
+                for="flexCheckDefault"
+                style="font-weight: 1000"
+              >
                 Syllabus Name
               </label>
               <input
@@ -237,7 +315,8 @@
             </div>
           </div>
           <br />
-          <span style="font-weight: 1000">Active Date</span> &nbsp;
+          <span style="font-weight: 1000; padding-left: 5px">Active Date</span>
+          &nbsp;
           <input
             type="date"
             value="date"
@@ -247,6 +326,8 @@
             (ngModelChange)="tradeData.activeDate = $event"
             [value]="tradeData.ActiveDate | date: 'yyyy-MM-dd'"
             autocomplete="off"
+            class="form-control"
+            style="width: 300px; margin-left: 5px"
           />
           <br />
           <br />
@@ -257,20 +338,23 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-md-2">
+              <div class="col-md-4" style="margin-left: 5px">
                 <b>Upload Test Plan</b>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-4" style="margin-left: 5px">
                 <input type="file" #testplanInput id="testplanInput" />
                 <br />
               </div>
             </div>
             <br />
             <div class="row">
-              <div class="col-md-2">
+              <div class="col-md-4" style="margin-left: 5px">
                 <b>Upload Syllabus</b>
               </div>
-              <div class="col-md-4">
+              <div
+                class="col-md-4"
+                style="margin-left: 5px; margin-bottom: 15px"
+              >
                 <input type="file" #syllabusInput id="syllabusInput" />
                 <br />
               </div>

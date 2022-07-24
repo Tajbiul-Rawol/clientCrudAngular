@@ -57,6 +57,9 @@ export class TradelistComponent implements OnInit {
   tradeList: any[] = [];
   copyTradeList: any[] = [];
   checked: boolean = false;
+  modalClicked: boolean = false;
+  pageNumber: number = 1;
+  pageSize: number = 3;
 
   ngOnInit(): void {
     this.getTradeLevels();
@@ -76,11 +79,19 @@ export class TradelistComponent implements OnInit {
   }
 
   loadAllTrade() {
-    this.service.getDetails().subscribe((data: any) => {
-      this.tradeList = data;
-      this.copyTradeList = data;
-    });
+    this.service
+      .getDetails(this.pageNumber, this.pageSize)
+      .subscribe((data: any) => {
+        this.tradeList = data;
+        this.copyTradeList = data;
+      });
   }
+
+  getTradeDetailsByPageNumber(page) {
+    this.pageNumber = page;
+    this.loadAllTrade();
+  }
+
   getTradeLevels() {
     this.service.getAll().subscribe((data: any) => {
       this.trades = data.trades;
@@ -105,7 +116,7 @@ export class TradelistComponent implements OnInit {
     this.getSelectedLanguages(trade.Languages);
     this.tradeData.ActiveDate = trade.ActiveDate;
     (<HTMLInputElement>document.getElementById('datepicker')).value =
-      trade.ActiveDate;
+      this.tradeData.ActiveDate;
     this.tradeData.Languages = trade.Languages;
     this.tradeData.DevelopmentOfficer = trade.DevelopmentOfficer;
     this.tradeData.Manager = trade.Manager;
@@ -130,30 +141,33 @@ export class TradelistComponent implements OnInit {
     let langArr = [];
     for (let i = 0; i < languages.length; i++) {
       let name = languages[i];
-      let language = this.languages.find(l => l.Name === name);
+      let language = this.languages.find((l) => l.Name === name);
       if (language) {
         language.isSelected = true;
       }
-      let checkBox =  (<HTMLInputElement><unknown>document.getElementsByName(name))
+      let checkBox = <HTMLInputElement>(
+        (<unknown>document.getElementsByName(name))
+      );
       checkBox.value = languages[i];
       checkBox.checked = true;
       this.checked = true;
     }
   }
-  clearCheckBoxSelections(){
+  clearCheckBoxSelections() {
     for (let i = 0; i < this.languages.length; i++) {
       let lang = this.languages[i];
-      let language = this.languages.find(l => l.Name === lang.Name);
+      let language = this.languages.find((l) => l.Name === lang.Name);
       if (language) {
         language.isSelected = false;
       }
-      let checkBox =  (<HTMLInputElement><unknown>document.getElementsByName(lang.Name))
+      let checkBox = <HTMLInputElement>(
+        (<unknown>document.getElementsByName(lang.Name))
+      );
       checkBox.value = this.languages[i];
       checkBox.checked = false;
       this.checked = false;
     }
   }
-
 
   onCheckboxChange(event: any) {
     this.tradeData.Languages += event.value + ',';
@@ -214,13 +228,65 @@ export class TradelistComponent implements OnInit {
     }
   }
 
-  clearFields() {}
+  searchTrade(trade: any, level: any) {
+    this.pageNumber = 1;
+    this.pageSize = 1000;
+    let val = [];
+    this.loadAllTrade();
+    setInterval(() => {
+      if (trade.Name != null && level.Name != null) {
+        for (var i = 0; i < this.tradeList.length; i++) {
+          let tradeName = this.tradeList[i].TradeName.toString();
+          let tradeLevel = this.tradeList[i].TradeLevel.toString();
+          if (trade.Name == tradeName && level.Name == tradeLevel) {
+            val.push(this.tradeList[i]);
+          }
+        }
+        this.tradeList = val;
+      }
+    }, 1000);
+  }
+
+  clearFields() {
+    this.tradeData = {
+      ID: 0,
+      TradeLevel: {},
+      TradeDetails: {},
+      TradeName: '',
+      Languages: [],
+      ActiveDate: Date.now(),
+      DevelopmentOfficer: '',
+      Manager: '',
+      SyllabusName: '',
+    };
+    (<HTMLInputElement>document.getElementById('syllabusInput')).value = null;
+    (<HTMLInputElement>document.getElementById('testplanInput')).value = null;
+    (<HTMLInputElement>document.getElementById('datepicker')).value = null;
+    (<HTMLInputElement>document.getElementById('trade')).value = '0';
+    (<HTMLInputElement>document.getElementById('tradeLevel')).value = '0';
+    this.clearCheckBoxSelections();
+    this.modalClicked = true;
+    this.clearSearch();
+    return;
+  }
 
   clearSearch() {
     this.getTradeLevels();
+    if (this.modalClicked) {
+      this.selectedModalTrade.Name = 'Select Trade';
+      this.selectedModalTrade.ID = 0;
+      this.selectedModalTradeLevel.Name = 'Select Level';
+      this.selectedModalTradeLevel.ID = 0;
+      this.modalClicked = false;
+    } else {
+      this.selectedTrade.Name = 'Select Trade';
+      this.selectedTrade.ID = 0;
+      this.selectedTradeLevel.Name = 'Select Level';
+      this.selectedTradeLevel.ID = 0;
+      this.pageNumber = 1;
+      this.pageSize = 3;
+    }
     this.loadAllTrade();
-    this.selectedTrade = 'Select Trade';
-    this.selectedTradeLevel = 'Select Level';
   }
 
   getDate() {
@@ -229,10 +295,12 @@ export class TradelistComponent implements OnInit {
     )).value;
   }
   Delete(ID: number) {
-    this.service.delete(ID).subscribe((r) => {
-      alert(r);
-      this.loadAllTrade();
-    });
+    if (window.confirm('Are you sure you want to delete this trade?')) {
+      this.service.delete(ID).subscribe((r) => {
+        alert(r);
+        this.loadAllTrade();
+      });
+    }
   }
 
   downloadPdfFile(data) {
@@ -254,7 +322,7 @@ export class TradelistComponent implements OnInit {
       'SyllabusFileUpload',
       this.syllabusInput.nativeElement.files[0]
     );
-    formData.append('ID',this.tradeData.ID);
+    formData.append('ID', this.tradeData.ID);
     formData.append('TradeName', this.tradeData.TradeName);
     formData.append('TradeLevel', this.tradeData.TradeLevel);
     formData.append('Languages', this.tradeData.Languages);

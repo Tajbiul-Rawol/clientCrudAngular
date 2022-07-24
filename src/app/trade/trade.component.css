@@ -1,0 +1,30 @@
+#trade{
+  width: 24% !important;
+  display: inline !important;
+}
+
+#tradeLevel{
+    width: 20% !important;
+    display: inline !important;
+  }
+
+#datepicker{
+  width: 20% !important;
+    display: inline !important;
+}
+
+.container{
+  margin-left: 150px !important;
+  width: 100% !important;
+}
+
+#developmentOfficer{
+  width: 120% !important;
+}
+#Manager{
+  width: 120% !important;
+ }
+
+#syllabusName{
+  width: 242% !important;
+} 

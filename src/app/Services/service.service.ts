@@ -33,8 +33,14 @@ export class ServiceService {
       httpOptions
     );
   }
-  public getDetails(): Observable<any[]> {
-    return this.http.get<any[]>(this.url + '/GetDetails');
+  public getDetails(pageNumber: number, pageSize: number): Observable<any[]> {
+    return this.http.get<any[]>(
+      this.url +
+        '/GetDetails?pageNumber=' +
+        pageNumber +
+        '&pageSize=' +
+        pageSize
+    );
   }
   public downloadFile(pdfFile: string): Observable<Blob> {
     return this.http.get(this.url + '/GetFile?pdfFile=' + pdfFile, {

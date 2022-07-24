@@ -13,144 +13,183 @@
   </div>
 </div>
 <div class="container">
-  <h1>File Uploading functionality</h1>
-  <br />
-  <select [(ngModel)]="selectedTrade.ID" (change)="onSelect($event.target)">
-    <option value="0">--Select Trade--</option>
-    <option *ngFor="let trade of trades" [value]="trade.ID">
-      {{ trade.Name }}
-    </option>
-  </select>
-  &nbsp;
-  <select [(ngModel)]="selectedTradeLevel.ID" (change)="getData($event.target)">
-    <option value="0">--Select Level--</option>
-    <option *ngFor="let level of tradeLevels" [value]="level.ID">
-      {{ level.Name }}
-    </option>
-  </select>
-  <br />
-  <br />
-  <div class="row">
-    <span style="font-weight: 1000">Languages</span>
-    <div class="col">
-      <div *ngFor="let language of languages">
-        <div class="form-check">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            value="{{ language.Name }}"
-            name="{{ language.Name }}"
-            id="flexCheckDefault"
-            (change)="onCheckboxChange($event.target)"
-          />
-          <label class="form-check-label" for="flexCheckDefault">
-            {{ language.Name }}
-          </label>
+  <h4>Trade Entry</h4>
+  <div style="height: 600px; width: 100%">
+    <div class="col-md-10">
+      <select
+        [(ngModel)]="selectedTrade.ID"
+        (change)="onSelect($event.target)"
+        id="trade"
+        class="form-control"
+      >
+        <option value="0">--Select Trade--</option>
+        <option *ngFor="let trade of trades" [value]="trade.ID">
+          {{ trade.Name }}
+        </option>
+      </select>
+      &nbsp;
+      <select
+        [(ngModel)]="selectedTradeLevel.ID"
+        (change)="getData($event.target)"
+        id="tradeLevel"
+        class="form-control"
+      >
+        <option value="0">--Select Level--</option>
+        <option *ngFor="let level of tradeLevels" [value]="level.ID">
+          {{ level.Name }}
+        </option>
+      </select>
+      <br />
+      <p></p>
+      <div class="row">
+        <span style="font-weight: 1000; padding-left: 20px">Languages</span>
+        <div class="col">
+          <div *ngFor="let language of languages">
+            <div class="form-check" id="checkBox">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                value="{{ language.Name }}"
+                name="{{ language.Name }}"
+                id="flexCheckDefault"
+                [checked]="language.isSelected"
+                (change)="onCheckboxChange($event.target)"
+                style="display: inline"
+              />
+              <label class="form-check-label" for="flexCheckDefault">
+                {{ language.Name }}
+              </label>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-  <br />
-  <br />
-  <div class="row">
-    <div class="col-sm3">
-      <label class="form-check-label" for="flexCheckDefault">
-        Development Officer
-      </label>
-      <input
-        type="text"
-        class="form-control"
-        placeholder="Development Officer"
-        aria-label="Development Officer"
-        aria-describedby="basic-addon1"
-        style="width: 520px"
-        [(ngModel)]="tradeData.DevelopmentOfficer"
-      />
-    </div>
-  </div>
-  <br />
-  <div class="row">
-    <div class="col-sm3">
-      <label class="form-check-label" for="flexCheckDefault"> Manager </label>
-      <input
-        type="text"
-        class="form-control"
-        placeholder="Manager"
-        aria-label="Manager"
-        aria-describedby="basic-addon1"
-        style="width: 520px"
-        [(ngModel)]="tradeData.Manager"
-      />
-    </div>
-  </div>
-  <br />
-  <div class="row">
-    <div class="col-sm3">
-      <label class="form-check-label" for="flexCheckDefault">
-        Syllabus Name
-      </label>
-      <input
-        type="text"
-        class="form-control"
-        placeholder="Syllabus Name"
-        aria-label="Syllabus Name"
-        aria-describedby="basic-addon1"
-        style="width: 520px"
-        [(ngModel)]="tradeData.SyllabusName"
-      />
-    </div>
-  </div>
+      <br />
+      <div class="row">
+        <div class="col-sm3" style="padding-left: 20px; display: inline">
+          <label class="form-check-label" for="flexCheckDefault">
+            Development Officer
+          </label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Development Officer"
+            aria-label="Development Officer"
+            aria-describedby="basic-addon1"
+            style="width: 520px"
+            [(ngModel)]="tradeData.DevelopmentOfficer"
+            id="developmentOfficer"
+          />
+        </div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <div class="col-sm3" style="padding-left: 20px">
+          <label class="form-check-label" for="flexCheckDefault">
+            Manager
+          </label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Manager"
+            aria-label="Manager"
+            aria-describedby="basic-addon1"
+            style="width: 520px"
+            [(ngModel)]="tradeData.Manager"
+            id="Manager"
+          />
+        </div>
+      </div>
+      <!-- <div class="row">
+      <div class="col-sm3" style="padding-left: 20px">
+        <label class="form-check-label" for="flexCheckDefault"> Manager </label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Manager"
+          aria-label="Manager"
+          aria-describedby="basic-addon1"
+          style="width: 520px"
+          [(ngModel)]="tradeData.Manager"
+        />
+      </div>
+    </div> -->
 
-  <br />
-  <span style="font-weight: 1000">Active Date</span> &nbsp;
-  <input type="date" value="date" id="datepicker" (change)="getDate()" />
-  <br />
-  <br />
-  <form [formGroup]="saveFileForm" (ngSubmit)="onExpSubmit()">
-    <div class="row">
-      <div class="col-md-6">
-        <div class="row"></div>
+      <div class="row">
+        <div class="col-sm3" style="padding-left: 20px">
+          <label class="form-check-label" for="flexCheckDefault">
+            Syllabus Name
+          </label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Syllabus Name"
+            aria-label="Syllabus Name"
+            aria-describedby="basic-addon1"
+            style="width: 520px"
+            [(ngModel)]="tradeData.SyllabusName"
+            id="syllabusName"
+          />
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-md-2">
-        <b>Upload Test Plan</b>
-      </div>
-      <div class="col-md-4">
-        <input type="file" #testplanInput id="testplanInput" />
-        <br />
-      </div>
-    </div>
-    <br />
-    <div class="row">
-      <div class="col-md-2">
-        <b>Upload Syllabus</b>
-      </div>
-      <div class="col-md-4">
-        <input type="file" #syllabusInput id="syllabusInput" />
-        <br />
-      </div>
-    </div>
-    <div class="row" align="center" style="padding-left: 400px">
-      <button
-        type="submit"
-        class="button"
-        class="btn btn-success"
-        color="primary"
+
+      <br />
+      <label
+        class="form-check-label"
+        for="flexCheckDefault"
+        style="padding-left: 5px"
       >
-        Save Details
-      </button>
-      &nbsp;&nbsp;
-      <button
-        type="submit"
-        class="button"
-        class="btn btn-warning"
-        color="primary"
-        (click)="clearFields()"
-      >
-        Clear Fields
-      </button>
+        Active Date
+      </label>
+      <!-- <span style="font-weight: 1000; padding-left: 5px">Active Date</span> &nbsp; -->
+      <input
+        type="date"
+        value="date"
+        id="datepicker"
+        (change)="getDate()"
+        style="margin-left: 5px"
+        class="form-control"
+      />
+      <br />
+      <br />
+      <form [formGroup]="saveFileForm" (ngSubmit)="onExpSubmit()">
+        <div class="row">
+          <div class="col-md-2" style="margin-left: 5px">
+            <b>Upload Test Plan</b>
+          </div>
+          <div class="col-md-4">
+            <input type="file" #testplanInput id="testplanInput" />
+            <br />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2" style="margin-left: 5px">
+            <b>Upload Syllabus</b>
+          </div>
+          <div class="col-md-4">
+            <input type="file" #syllabusInput id="syllabusInput" />
+            <br />
+          </div>
+        </div>
+        <div class="row" align="center" style="padding-left: 400px">
+          <button
+            type="submit"
+            class="button"
+            class="btn btn-success"
+            color="primary"
+          >
+            Save Details
+          </button>
+          &nbsp;&nbsp;
+          <button
+            type="button"
+            class="button"
+            class="btn btn-warning"
+            color="primary"
+            (click)="clearFields()"
+          >
+            Clear Fields
+          </button>
+        </div>
+      </form>
     </div>
-  </form>
+  </div>
   <hr />
 </div>

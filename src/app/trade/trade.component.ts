@@ -20,7 +20,7 @@ export class TradeComponent implements OnInit {
     this.saveFileForm = this.formBuilder.group({});
     this.getTradeLevels();
     this.getLanguages();
-    this.loadAllTrade();
+    // this.loadAllTrade();
   }
 
   selectedTrade: any = {
@@ -52,14 +52,8 @@ export class TradeComponent implements OnInit {
   saveFileForm: any;
   tradeList: any[] = [];
   copyTradeList: any[] = [];
+  checked: boolean = false;
 
-  loadAllTrade() {
-    this.service.getDetails().subscribe((data: any) => {
-      this.tradeList = data;
-      this.copyTradeList = data;
-    });
-    console.log(this.tradeList);
-  }
   getDate() {
     this.tradeData.ActiveDate = (<HTMLInputElement>(
       document.getElementById('datepicker')
@@ -82,11 +76,10 @@ export class TradeComponent implements OnInit {
     formData.append('Languages', this.tradeData.Languages);
     formData.append('ActiveDate', this.tradeData.ActiveDate);
     formData.append('DevelopmentOfficer', this.tradeData.DevelopmentOfficer);
-    formData.append('DevelopmentOfficer', this.tradeData.SyllabusName);
+    formData.append('SyllabusName', this.tradeData.SyllabusName);
     formData.append('Manager', this.tradeData.Manager);
     this.service.saveDetails(formData).subscribe((result) => {
       alert(result);
-      this.loadAllTrade();
     });
   }
   getTradeLevels() {
@@ -112,8 +105,24 @@ export class TradeComponent implements OnInit {
     (<HTMLInputElement>document.getElementById('datepicker')).value = null;
     (<HTMLInputElement>document.getElementById('trade')).value = '0';
     (<HTMLInputElement>document.getElementById('tradeLevel')).value = '0';
-
+    this.clearCheckBoxSelections();
     return;
+  }
+
+  clearCheckBoxSelections() {
+    for (let i = 0; i < this.languages.length; i++) {
+      let lang = this.languages[i];
+      let language = this.languages.find((l) => l.Name === lang.Name);
+      if (language) {
+        language.isSelected = false;
+      }
+      let checkBox = <HTMLInputElement>(
+        (<unknown>document.getElementsByName(lang.Name))
+      );
+      checkBox.value = this.languages[i];
+      checkBox.checked = false;
+      this.checked = false;
+    }
   }
   getLanguages(): any {
     this.languages = [

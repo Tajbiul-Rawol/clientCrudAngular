@@ -1,0 +1,27 @@
+#trade{
+    width: 20% !important;
+    display: inline !important;
+  }
+  
+  #tradeLevel{
+      width: 20% !important;
+      display: inline !important;
+    }
+
+    .container{
+      max-width: 85% !important;
+    }
+
+#modalTradeLevel{
+  width: 40% !important;
+  display: inline !important;
+}
+
+#modalTrade{
+  width: 40% !important;
+  display: inline !important;
+}
+
+.container{
+  margin-left: 169px;
+}
