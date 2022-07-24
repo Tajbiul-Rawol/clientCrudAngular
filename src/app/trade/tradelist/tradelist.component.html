@@ -50,7 +50,7 @@
             height: 100%;
           "
         >
-          <th style="width: 30%">
+          <th style="width: 38%; padding: 0px !important">
             <b>Action</b>
           </th>
           <th style="width: 20%">
@@ -59,7 +59,7 @@
           <th style="width: 15%">
             <b>Trade Level</b>
           </th>
-          <th style="width: 10%">
+          <th style="width: 5%">
             <b>Languages</b>
           </th>
           <th style="width: 15%">
@@ -79,7 +79,7 @@
       </thead>
       <tbody style="overflow-y: auto; height: 100px">
         <tr *ngFor="let trade of tradeList">
-          <td>
+          <td style="padding-right: 0px">
             <button
               class="btn btn-primary"
               (click)="openModal(trade)"
@@ -169,6 +169,14 @@
           style="cursor: pointer"
           (click)="getTradeDetailsByPageNumber(3)"
           >3</a
+        >
+      </li>
+      <li class="page-item">
+        <a
+          class="page-link"
+          style="cursor: pointer"
+          (click)="getTradeDetailsByPageNumber(4)"
+          >4</a
         >
       </li>
       <li class="page-item">
