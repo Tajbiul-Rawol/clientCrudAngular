@@ -61,7 +61,7 @@ export class TradeComponent implements OnInit {
   }
   onExpSubmit() {
     debugger;
-
+    
     let formData = new FormData();
     formData.append(
       'TestPlanFileUpload',
@@ -100,30 +100,17 @@ export class TradeComponent implements OnInit {
       Manager: '',
       SyllabusName: '',
     };
+    this.languages = [];
+    this.getLanguages();
     (<HTMLInputElement>document.getElementById('syllabusInput')).value = null;
     (<HTMLInputElement>document.getElementById('testplanInput')).value = null;
     (<HTMLInputElement>document.getElementById('datepicker')).value = null;
     (<HTMLInputElement>document.getElementById('trade')).value = '0';
     (<HTMLInputElement>document.getElementById('tradeLevel')).value = '0';
-    this.clearCheckBoxSelections();
     return;
   }
 
-  clearCheckBoxSelections() {
-    for (let i = 0; i < this.languages.length; i++) {
-      let lang = this.languages[i];
-      let language = this.languages.find((l) => l.Name === lang.Name);
-      if (language) {
-        language.isSelected = false;
-      }
-      let checkBox = <HTMLInputElement>(
-        (<unknown>document.getElementsByName(lang.Name))
-      );
-      checkBox.value = this.languages[i];
-      checkBox.checked = false;
-      this.checked = false;
-    }
-  }
+
   getLanguages(): any {
     this.languages = [
       { ID: 1, Name: 'English', isSelected: false },

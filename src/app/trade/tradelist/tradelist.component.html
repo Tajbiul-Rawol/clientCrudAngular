@@ -34,29 +34,29 @@
   <button class="btn btn-warning" (click)="clearSearch()">clear</button>
 
   <br /><br />
-  <div class="row" style="overflow-y: scroll">
+  <div class="row">
     <table
       width="100%"
-      class="responsive-table table-striped table-bordered table-hover"
-      style="height: 100px"
+      class="responsive-table table-hover"
+      style="height: 400px; display: block; overflow-y: scroll"
     >
       <thead>
         <tr
-          style="height: 40px"
           style="
             color: #fff;
             background-color: #333;
             text-align: center;
-            height: 100%;
+            height: 40px;
+            position: static;
           "
         >
-          <th style="width: 38%; padding: 0px !important">
+          <th style="width: 15%">
             <b>Action</b>
           </th>
           <th style="width: 20%">
             <b>Trade Name</b>
           </th>
-          <th style="width: 15%">
+          <th style="width: 10%">
             <b>Trade Level</b>
           </th>
           <th style="width: 5%">
@@ -72,14 +72,14 @@
           <th style="width: 8%">
             <b>Test plan File </b>
           </th>
-          <th style="width: 15%">
+          <th style="width: 25%">
             <b>Active Date </b>
           </th>
         </tr>
       </thead>
       <tbody style="overflow-y: auto; height: 100px">
         <tr *ngFor="let trade of tradeList">
-          <td style="padding-right: 0px">
+          <td style="padding: 15px">
             <button
               class="btn btn-primary"
               (click)="openModal(trade)"
@@ -99,16 +99,16 @@
               Delete
             </button>
           </td>
-          <td>
+          <td style="text-align: center">
             <span>{{ trade.TradeName }}</span>
           </td>
-          <td>
+          <td style="text-align: center">
             <span>{{ trade.TradeLevel }}</span>
           </td>
-          <td>
+          <td style="text-align: center">
             <span>{{ trade.Languages }}</span>
           </td>
-          <td>
+          <td style="text-align: center">
             <span>{{ trade.SyllabusName }}</span>
           </td>
           <td>
@@ -131,7 +131,7 @@
               <span class="fa fa-download"> {{ trade.TestPlanFilePath }}</span>
             </button>
           </td>
-          <td>
+          <td style="text-align: center">
             <span>{{ trade.ActiveDate | date: "shortDate" }}</span>
           </td>
         </tr>
@@ -147,7 +147,15 @@
           >Previous</a
         >
       </li>
-      <li class="page-item">
+      <li *ngFor="let page of pages" class="page-item" class="page-item">
+        <a
+          class="page-link"
+          (click)="getTradeDetailsByPageNumber(page)"
+          style="cursor: pointer"
+          >1</a
+        >
+      </li>
+      <!-- <li class="page-item">
         <a
           class="page-link"
           (click)="getTradeDetailsByPageNumber(1)"
@@ -178,7 +186,7 @@
           (click)="getTradeDetailsByPageNumber(4)"
           >4</a
         >
-      </li>
+      </li>-->
       <li class="page-item">
         <a
           class="page-link"
@@ -274,7 +282,7 @@
                 aria-describedby="basic-addon1"
                 style="width: 520px"
                 [(ngModel)]="tradeData.DevelopmentOfficer"
-                style="width: 300px !important; padding-left: 20px"
+                style="width: 200% !important; padding-left: 20px"
               />
             </div>
           </div>
@@ -296,7 +304,7 @@
                 aria-describedby="basic-addon1"
                 style="width: 520px"
                 [(ngModel)]="tradeData.Manager"
-                style="width: 300px !important; padding-left: 20px"
+                style="width: 200% !important; padding-left: 20px"
               />
             </div>
           </div>
@@ -318,7 +326,7 @@
                 aria-describedby="basic-addon1"
                 style="width: 520px"
                 [(ngModel)]="tradeData.SyllabusName"
-                style="width: 300px !important; padding-left: 20px"
+                style="width: 200% !important; padding-left: 20px"
               />
             </div>
           </div>
@@ -335,7 +343,7 @@
             [value]="tradeData.ActiveDate | date: 'yyyy-MM-dd'"
             autocomplete="off"
             class="form-control"
-            style="width: 300px; margin-left: 5px"
+            style="width: 93%; margin-left: 5px"
           />
           <br />
           <br />

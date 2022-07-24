@@ -44,7 +44,6 @@ export class TradelistComponent implements OnInit {
     Manager: '',
     SyllabusName: '',
   };
-
   tradeLevels: any;
   modalTradeLevels: any;
   trades: any[] = [];
@@ -59,7 +58,8 @@ export class TradelistComponent implements OnInit {
   checked: boolean = false;
   modalClicked: boolean = false;
   pageNumber: number = 1;
-  pageSize: number = 3;
+  pageSize: number = 10;
+  pages:any[]= [];
 
   ngOnInit(): void {
     this.getTradeLevels();
@@ -84,6 +84,7 @@ export class TradelistComponent implements OnInit {
       .subscribe((data: any) => {
         this.tradeList = data;
         this.copyTradeList = data;
+        this.pages.length = this.tradeList.length;
       });
   }
 
@@ -284,7 +285,7 @@ export class TradelistComponent implements OnInit {
       this.selectedTradeLevel.Name = 'Select Level';
       this.selectedTradeLevel.ID = 0;
       this.pageNumber = 1;
-      this.pageSize = 3;
+      this.pageSize = 10;
     }
     this.loadAllTrade();
   }
