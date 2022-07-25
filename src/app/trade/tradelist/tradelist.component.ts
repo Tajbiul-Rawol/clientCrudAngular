@@ -58,11 +58,12 @@ export class TradelistComponent implements OnInit {
   checked: boolean = false;
   modalClicked: boolean = false;
   pageNumber: number = 1;
-  pageSize: number = 10;
+  defaultPageSize: number = 12;
+  pageSize: number = this.defaultPageSize;
   pages:any[]= [];
   totalTrades: number = 0;
   cachedPages: number = 0;
-
+  backUpCache: number =0;
 
   ngOnInit(): void {
     this.getTradeLevels();
@@ -87,6 +88,7 @@ export class TradelistComponent implements OnInit {
       .subscribe((data: any) => {
         this.tradeList = data.Trades;
         this.copyTradeList = data.Trades;
+        console.log(this.tradeList)
         this.totalTrades = data.TotalTrades;
         this.pagination();
       });
@@ -100,12 +102,14 @@ export class TradelistComponent implements OnInit {
         return;
       }
       this.cachedPages = totalPages;
+      this.pages.length = 0;
       for (let i = 1; i <= totalPages; i++) {
         this.pages.push(i);
      }
     }else {
       totalPages = Math.floor(totalPages);
       if (totalPages < 1) {
+        this.pages.length = 0;
         this.pages.push(totalPages+1);
       }
     }
@@ -254,11 +258,10 @@ export class TradelistComponent implements OnInit {
   }
 
   searchTrade(trade: any, level: any) {
-    this.pageNumber = 1;
-    this.pageSize = 1000;
     let val = [];
+    this.pageSize = 1000;
     this.loadAllTrade();
-    setInterval(() => {
+    setTimeout(() => {
       if (trade.Name != null && level.Name != null) {
         for (var i = 0; i < this.tradeList.length; i++) {
           let tradeName = this.tradeList[i].TradeName.toString();
@@ -268,8 +271,9 @@ export class TradelistComponent implements OnInit {
           }
         }
         this.tradeList = val;
+        this.pageSize = this.defaultPageSize;
       }
-    }, 1000);
+    }, 100);
   }
 
   clearFields() {
@@ -309,7 +313,8 @@ export class TradelistComponent implements OnInit {
       this.selectedTradeLevel.Name = 'Select Level';
       this.selectedTradeLevel.ID = 0;
       this.pageNumber = 1;
-      this.pageSize = 10;
+      this.pageSize = 12;
+      this.cachedPages--;
     }
     this.loadAllTrade();
   }
