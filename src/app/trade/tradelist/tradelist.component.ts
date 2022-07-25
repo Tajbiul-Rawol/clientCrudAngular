@@ -58,8 +58,11 @@ export class TradelistComponent implements OnInit {
   checked: boolean = false;
   modalClicked: boolean = false;
   pageNumber: number = 1;
-  pageSize: number = 100;
+  pageSize: number = 10;
   pages:any[]= [];
+  totalTrades: number = 0;
+  cachedPages: number = 0;
+
 
   ngOnInit(): void {
     this.getTradeLevels();
@@ -82,12 +85,32 @@ export class TradelistComponent implements OnInit {
     this.service
       .getDetails(this.pageNumber, this.pageSize)
       .subscribe((data: any) => {
-        this.tradeList = data;
-        this.copyTradeList = data;
-        this.pages.length = this.tradeList.length;
+        this.tradeList = data.Trades;
+        this.copyTradeList = data.Trades;
+        this.totalTrades = data.TotalTrades;
+        this.pagination();
       });
   }
 
+  pagination(){
+    let totalPages = this.totalTrades/this.pageSize;
+    if (totalPages > 1 && totalPages < 1.9) {
+      totalPages = Math.ceil(totalPages);
+      if (this.cachedPages == totalPages) {
+        return;
+      }
+      this.cachedPages = totalPages;
+      for (let i = 1; i <= totalPages; i++) {
+        this.pages.push(i);
+     }
+    }else {
+      totalPages = Math.floor(totalPages);
+      if (totalPages < 1) {
+        this.pages.push(totalPages+1);
+      }
+    }
+    
+  }
   getTradeDetailsByPageNumber(page) {
     this.pageNumber = page;
     this.loadAllTrade();
