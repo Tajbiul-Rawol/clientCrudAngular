@@ -58,7 +58,7 @@ export class TradelistComponent implements OnInit {
   checked: boolean = false;
   modalClicked: boolean = false;
   pageNumber: number = 1;
-  pageSize: number = 10;
+  pageSize: number = 100;
   pages:any[]= [];
 
   ngOnInit(): void {
@@ -205,6 +205,7 @@ export class TradelistComponent implements OnInit {
     this.tradeData.TradeLevel = this.selectedTradeLevel.Name;
   }
   search(trade: any, level: any) {
+    this.getTradeLevels();
     this.tradeList = this.copyTradeList;
     console.log(level);
     let val = [];

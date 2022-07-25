@@ -25,6 +25,13 @@
   z-index: 0;
 }
 
+.container > table > td > tr{
+  font-size: 12px;
+}
+
+table:hover{
+  cursor: pointer;
+}
 
 
 @media screen and (min-width: 1326px) {
@@ -58,13 +65,13 @@
 
 
 #developmentOfficer{
-  width: 157% !important;
+  width: 242% !important;
 }
 #Manager{
-  width: 157% !important;
+  width: 242% !important;
  }
 
 #syllabusName{
-  width: 157% !important;
+  width: 242% !important;
 } 
 
