@@ -16,21 +16,55 @@
 
 .container{
   margin-left: 160px !important;
-  margin-top: 40px;
+  margin-top: 60px;
   width: 30% !important;
   padding:5px 8px 5px 15px;
   box-shadow: 10px 10px 5px #aaaaaa;
   border: 1px solid #aaaaaa;
   height:720px !important;
+  z-index: 0;
 }
 
+
+
+@media screen and (min-width: 1326px) {
+  #trade{
+    width: 50% !important;
+    display: inline !important;
+  }
+  
+  #tradeLevel{
+      width: 36% !important;
+      display: inline !important;
+    }
+  
+  #datepicker{
+    width: 117% !important;
+    display: inline !important;
+    padding-top: 0px !important;
+  }
+  
+  #developmentOfficer{
+    width: 155% !important;
+  }
+  #Manager{
+    width: 155% !important;
+  }
+
+  #syllabusName{
+    width: 155% !important;
+  } 
+}
+
+
 #developmentOfficer{
-  width: 240% !important;
+  width: 157% !important;
 }
 #Manager{
-  width: 240% !important;
+  width: 157% !important;
  }
 
 #syllabusName{
-  width: 242% !important;
+  width: 157% !important;
 } 
+
