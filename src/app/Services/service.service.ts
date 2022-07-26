@@ -1,22 +1,25 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Environment } from "./../env";
 @Injectable({
   providedIn: 'root',
 })
 export class ServiceService {
-  url = 'http://localhost:51727/API/TradeDetails';
-  tradeLevelUrl = '../assets/store.json';
-  constructor(private http: HttpClient) {}
+  env:Environment;
+  constructor(private http: HttpClient) {
+    this.env = new Environment();
+  }
 
   saveDetails(data: any): Observable<any> {
+
     let headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
     const httpOptions = {
       headers: headers,
     };
     return this.http.post<string>(
-      this.url + '/AddTradeDetails/',
+      this.env.url + '/AddTradeDetails/',
       data,
       httpOptions
     );
@@ -28,14 +31,14 @@ export class ServiceService {
       headers: headers,
     };
     return this.http.post<string>(
-      this.url + '/UpdateTradeDetails/',
+      this.env.url + '/UpdateTradeDetails/',
       data,
       httpOptions
     );
   }
   public getDetails(pageNumber: number, pageSize: number): Observable<any[]> {
     return this.http.get<any[]>(
-      this.url +
+      this.env.url +
         '/GetDetails?pageNumber=' +
         pageNumber +
         '&pageSize=' +
@@ -43,16 +46,16 @@ export class ServiceService {
     );
   }
   public downloadFile(pdfFile: string): Observable<Blob> {
-    return this.http.get(this.url + '/GetFile?pdfFile=' + pdfFile, {
+    return this.http.get(this.env.url + '/GetFile?pdfFile=' + pdfFile, {
       responseType: 'blob',
     });
   }
 
   getAll(): any {
-    return this.http.get<any>(this.tradeLevelUrl);
+    return this.http.get<any>(this.env.tradeLevelUrl);
   }
 
   public delete(ID: any) {
-    return this.http.delete<any>(this.url + '/Delete?ID=' + ID);
+    return this.http.delete<any>(this.env.url + '/Delete?ID=' + ID);
   }
 }

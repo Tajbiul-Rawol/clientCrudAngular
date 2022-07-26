@@ -7,6 +7,7 @@ import { TradeComponent } from './trade/trade.component';
 import { HttpClientModule } from '@angular/common/http';
 import { TradelistComponent } from './trade/tradelist/tradelist.component';
 import { DashboardComponent } from './dashboard-component/dashboard-component.component';
+
 @NgModule({
   declarations: [AppComponent, TradeComponent, TradelistComponent, DashboardComponent],
   imports: [

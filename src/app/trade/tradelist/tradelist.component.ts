@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ServiceService } from '../../Services/service.service';
 import { saveAs as importedSaveAs } from 'file-saver';
 import { Validators, FormBuilder } from '@angular/forms';
+import { Environment } from "../../env";
 @Component({
   selector: 'app-tradelist',
   templateUrl: './tradelist.component.html',
@@ -64,12 +65,14 @@ export class TradelistComponent implements OnInit {
   totalTrades: number = 0;
   cachedPages: number = 0;
   backUpCache: number =0;
+  env: Environment;
 
   ngOnInit(): void {
     this.getTradeLevels();
     this.getLanguages();
     this.loadAllTrade();
     this.editFileForm = this.formBuilder.group({});
+    this.env = new Environment();
   }
 
   getLanguages(): any {
@@ -145,12 +148,17 @@ export class TradelistComponent implements OnInit {
     this.tradeData.ActiveDate = trade.ActiveDate;
     (<HTMLInputElement>document.getElementById('datepicker')).value =
       this.tradeData.ActiveDate;
-    this.tradeData.Languages = trade.Languages;
+    this.tradeData.Languages = trade.Languages; 
     this.tradeData.DevelopmentOfficer = trade.DevelopmentOfficer;
     this.tradeData.Manager = trade.Manager;
     this.tradeData.SyllabusName = trade.SyllabusName;
   }
-
+  openPdfModal(syllabusFilePath: string){
+    console.log((<HTMLInputElement>document.getElementById('pdfViewer')));
+    let env = new Environment();
+    console.log(env.url);
+    (<HTMLInputElement>document.getElementById('pdfViewer')).src = this.env.pdfUrl+syllabusFilePath;
+  }
   onSelect(event: any) {
     let tradeDetails = this.trades.find((t: any) => t.ID == event.value);
     this.tradeData.TradeName = tradeDetails.Name;

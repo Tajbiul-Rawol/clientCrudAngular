@@ -22,6 +22,7 @@
     "bootstrap": "^4.5.0",
     "file-saver": "^2.0.5",
     "jquery": "^3.5.1",
+    "ng2-pdfjs-viewer": "^13.2.2",
     "popper.js": "^1.14.3",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
