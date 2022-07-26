@@ -66,6 +66,7 @@ export class TradelistComponent implements OnInit {
   cachedPages: number = 0;
   backUpCache: number =0;
   env: Environment;
+  FileName: string = "";
 
   ngOnInit(): void {
     this.getTradeLevels();
@@ -153,11 +154,11 @@ export class TradelistComponent implements OnInit {
     this.tradeData.Manager = trade.Manager;
     this.tradeData.SyllabusName = trade.SyllabusName;
   }
-  openPdfModal(syllabusFilePath: string){
+  openPdfModal(FilePath: string){
+    this.FileName = FilePath;
     console.log((<HTMLInputElement>document.getElementById('pdfViewer')));
     let env = new Environment();
-    console.log(env.url);
-    (<HTMLInputElement>document.getElementById('pdfViewer')).src = this.env.pdfUrl+syllabusFilePath;
+    (<HTMLInputElement>document.getElementById('pdfViewer')).src = this.env.pdfUrl+FilePath;
   }
   onSelect(event: any) {
     let tradeDetails = this.trades.find((t: any) => t.ID == event.value);

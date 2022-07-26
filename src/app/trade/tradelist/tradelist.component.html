@@ -134,9 +134,17 @@
             </span>
           </td>
           <td>
-            <button
+            <!-- <button
               (click)="downloadPdfFile(trade.TestPlanFilePath)"
               class="btn btn-link"
+            >
+              <span class="fa fa-download"> {{ trade.TestPlanFilePath }}</span>
+            </button> -->
+            <button
+              (click)="openPdfModal(trade.TestPlanFilePath)"
+              class="btn btn-link"
+              data-toggle="modal"
+              data-target="#pdfModal"
             >
               <span class="fa fa-download"> {{ trade.TestPlanFilePath }}</span>
             </button>
@@ -389,11 +397,11 @@
     aria-labelledby="pdfModal"
     aria-hidden="true"
   >
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog" role="document" style="width: 750px">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">
-            {{ tradeData.SyllabusFilePath }}
+            {{ FileName }}
           </h5>
           <button
             type="button"
@@ -413,6 +421,11 @@
               height="500"
             />
           </div>
+        </div>
+        <div class="modal-footer">
+          <button (click)="downloadPdfFile(FileName)" class="btn">
+            <span class="fa fa-download"> Download PDF</span>
+          </button>
         </div>
       </div>
     </div>
