@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ServiceService } from '../../Services/service.service';
 import { saveAs as importedSaveAs } from 'file-saver';
 import { Validators, FormBuilder } from '@angular/forms';
-import { Environment } from "../../env";
+import { Environment } from '../../env';
 @Component({
   selector: 'app-tradelist',
   templateUrl: './tradelist.component.html',
@@ -61,12 +61,12 @@ export class TradelistComponent implements OnInit {
   pageNumber: number = 1;
   defaultPageSize: number = 12;
   pageSize: number = this.defaultPageSize;
-  pages:any[]= [];
+  pages: any[] = [];
   totalTrades: number = 0;
   cachedPages: number = 0;
-  backUpCache: number =0;
+  backUpCache: number = 0;
   env: Environment;
-  FileName: string = "";
+  FileName: string = '';
 
   ngOnInit(): void {
     this.getTradeLevels();
@@ -92,14 +92,14 @@ export class TradelistComponent implements OnInit {
       .subscribe((data: any) => {
         this.tradeList = data.Trades;
         this.copyTradeList = data.Trades;
-        console.log(this.tradeList)
+        console.log(this.tradeList);
         this.totalTrades = data.TotalTrades;
         this.pagination();
       });
   }
 
-  pagination(){
-    let totalPages = this.totalTrades/this.pageSize;
+  pagination() {
+    let totalPages = this.totalTrades / this.pageSize;
     if (totalPages > 1 && totalPages < 1.9) {
       totalPages = Math.ceil(totalPages);
       if (this.cachedPages == totalPages) {
@@ -109,15 +109,14 @@ export class TradelistComponent implements OnInit {
       this.pages.length = 0;
       for (let i = 1; i <= totalPages; i++) {
         this.pages.push(i);
-     }
-    }else {
+      }
+    } else {
       totalPages = Math.floor(totalPages);
       if (totalPages < 1) {
         this.pages.length = 0;
-        this.pages.push(totalPages+1);
+        this.pages.push(totalPages + 1);
       }
     }
-    
   }
   getTradeDetailsByPageNumber(page) {
     this.pageNumber = page;
@@ -149,16 +148,17 @@ export class TradelistComponent implements OnInit {
     this.tradeData.ActiveDate = trade.ActiveDate;
     (<HTMLInputElement>document.getElementById('datepicker')).value =
       this.tradeData.ActiveDate;
-    this.tradeData.Languages = trade.Languages; 
+    this.tradeData.Languages = trade.Languages;
     this.tradeData.DevelopmentOfficer = trade.DevelopmentOfficer;
     this.tradeData.Manager = trade.Manager;
     this.tradeData.SyllabusName = trade.SyllabusName;
   }
-  openPdfModal(FilePath: string){
+  openPdfModal(FilePath: string) {
     this.FileName = FilePath;
-    console.log((<HTMLInputElement>document.getElementById('pdfViewer')));
+    console.log(<HTMLInputElement>document.getElementById('pdfViewer'));
     let env = new Environment();
-    (<HTMLInputElement>document.getElementById('pdfViewer')).src = this.env.pdfUrl+FilePath;
+    (<HTMLInputElement>document.getElementById('pdfViewer')).src =
+      this.env.pdfUrl + FilePath;
   }
   onSelect(event: any) {
     let tradeDetails = this.trades.find((t: any) => t.ID == event.value);
@@ -207,6 +207,13 @@ export class TradelistComponent implements OnInit {
   }
 
   onCheckboxChange(event: any) {
+    if (this.tradeData.Languages.includes(event.value)) {
+      let arr = this.tradeData.Languages.split(',');
+      let index = arr.indexOf(event.value);
+      arr.splice(index, 1).join(',');
+      this.tradeData.Languages = arr.join(',');
+      return;
+    }
     this.tradeData.Languages += event.value + ',';
     console.log('check box' + this.tradeData.Languages);
   }
