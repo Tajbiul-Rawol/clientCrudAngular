@@ -26,3 +26,9 @@
   margin-left: 169px;
   margin-top: 3%;
 }
+
+.modal-dialog {
+    max-width: 689px;
+    margin: 1.75rem auto;
+ }
+

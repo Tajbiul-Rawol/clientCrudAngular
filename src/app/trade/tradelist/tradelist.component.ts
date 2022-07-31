@@ -121,6 +121,9 @@ export class TradelistComponent implements OnInit {
   }
   getTradeDetailsByPageNumber(page) {
     this.pageNumber = page;
+    if (this.pageNumber > this.cachedPages) {
+      return;
+    }
     this.loadAllTrade();
   }
 
@@ -148,7 +151,7 @@ export class TradelistComponent implements OnInit {
     this.getSelectedLanguages(trade.Languages);
     this.tradeData.ActiveDate = trade.ActiveDate;
     (<HTMLInputElement>document.getElementById('datepicker')).value =
-      this.tradeData.ActiveDate;
+      this.tradeData.ActiveDate.toString();
     this.tradeData.Languages = trade.Languages; 
     this.tradeData.DevelopmentOfficer = trade.DevelopmentOfficer;
     this.tradeData.Manager = trade.Manager;
