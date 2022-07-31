@@ -20,6 +20,7 @@
     "@angular/platform-browser-dynamic": "~11.2.14",
     "@angular/router": "~11.2.14",
     "bootstrap": "^4.5.0",
+    "chart.js": "^3.8.2",
     "file-saver": "^2.0.5",
     "jquery": "^3.5.1",
     "ng2-pdfjs-viewer": "^13.2.2",
